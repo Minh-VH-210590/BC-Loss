@@ -522,7 +522,8 @@ if __name__ == '__main__':
         eval_test_id = ProxyEvaluator(data,data.train_user_list,data.test_id_user_list,top_k=[20],dump_dict=merge_user_list([data.train_user_list,data.valid_user_list,data.test_ood_user_list]),pop_mask=pop_mask)
         eval_valid = ProxyEvaluator(data,data.train_user_list,data.valid_user_list,top_k=[20],pop_mask=pop_mask)
 
-    evaluators=[ eval_valid,eval_test_id, eval_test_ood]
+    # evaluators=[ eval_valid,eval_test_id, eval_test_ood]
+    evaluators=[ eval_valid,eval_test_id]
     eval_names=["valid","test_id", "test_ood" ]
 
     if args.modeltype == 'LGN':
