@@ -527,26 +527,16 @@ if __name__ == '__main__':
 
     if args.modeltype == 'LGN':
         model = LGN(args, data)
+    
     if args.modeltype == 'INFONCE':
         model = INFONCE(args, data)
     if args.modeltype == 'INFONCE_batch':
         model = INFONCE_batch(args, data)
-    if args.modeltype == 'IPS':
-        model = IPS(args, data)
-    if args.modeltype == 'CausE':
-        model = CausE(args, data)
+    
     if args.modeltype == 'BC_LOSS':
         model = BC_LOSS(args, data)
     if args.modeltype == 'BC_LOSS_batch':
         model = BC_LOSS_batch(args, data)
-    if args.modeltype == 'MACR':
-        model = MACR(args, data)
-    if args.modeltype == 'SAMREG':
-        model = SAMREG(args, data)
-    if args.modeltype == "SimpleX":
-        model = SimpleX(args,data)
-    if args.modeltype == "SimpleX_batch":
-        model = SimpleX_batch(args,data)
     
 #    b=args.sample_beta
 
@@ -577,8 +567,7 @@ if __name__ == '__main__':
 
         # All models
         running_loss, running_mf_loss, running_reg_loss, num_batches = 0, 0, 0, 0
-        # CausE
-        running_cf_loss = 0
+
         # BC_LOSS
         running_loss1, running_loss2 = 0, 0
 
@@ -632,28 +621,6 @@ if __name__ == '__main__':
                     model.freeze_pop()
                     loss = loss1 + loss2 + reg_loss
 
-            elif args.modeltype == 'IPS' or args.modeltype =='SAMREG':
-
-                mf_loss, reg_loss = model(users, pos_items, neg_items, pos_weights)
-                loss = mf_loss + reg_loss
-
-            elif args.modeltype == 'CausE':
-                neg_items = batch[2]
-                all_reg = torch.squeeze(batch[3].T.reshape([1, -1]))
-                all_ctrl = torch.squeeze(batch[4].T.reshape([1, -1]))
-                mf_loss, reg_loss, cf_loss = model(users, pos_items, neg_items, all_reg, all_ctrl)
-                loss = mf_loss + reg_loss + cf_loss 
-            
-            elif args.modeltype == "SimpleX":
-                mf_loss, reg_loss = model(users, pos_items, neg_items)
-                loss = mf_loss + reg_loss
-
-            
-            elif args.modeltype == "SimpleX_batch":
-                mf_loss, reg_loss = model(users, pos_items)
-                loss = mf_loss + reg_loss
-
-
             else:
                 mf_loss, reg_loss = model(users, pos_items, neg_items)
                 loss = mf_loss + reg_loss
@@ -667,9 +634,6 @@ if __name__ == '__main__':
 
             if args.modeltype != 'BC_LOSS' and args.modeltype != 'BC_LOSS_batch':
                 running_mf_loss += mf_loss.detach().item()
-            
-            if args.modeltype == 'CausE':
-                running_cf_loss += cf_loss.detach().item()
 
             if args.modeltype == 'BC_LOSS' or args.modeltype == 'BC_LOSS_batch':
                 running_loss1 += loss1.detach().item()
@@ -681,9 +645,7 @@ if __name__ == '__main__':
 
         # Training data for one epoch
         if args.modeltype == "CausE":
-            perf_str = 'Epoch %d [%.1fs]: train==[%.5f=%.5f + %.5f + %.5f]' % (
-                epoch, t2 - t1, running_loss / num_batches,
-                running_mf_loss / num_batches, running_reg_loss / num_batches, running_cf_loss / num_batches)
+            pass
         
         elif args.modeltype=="BC_LOSS" or args.modeltype=="BC_LOSS_batch":
             perf_str = 'Epoch %d [%.1fs]: train==[%.5f=%.5f + %.5f + %.5f]' % (
