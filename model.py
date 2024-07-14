@@ -311,7 +311,7 @@ class BC_LOSS_batch(LGN):
         regularizer1 = 0.5 * torch.norm(userEmb0) ** 2 + self.batch_size * 0.5 * torch.norm(posEmb0) ** 2
         regularizer1 = regularizer1/self.batch_size
 
-        regularizer2= 0.5 * torch.norm(users_pop_emb) ** 2 + self.batch_size * 0.5 * torch.norm(pos_pop_embp) ** 2
+        regularizer2= 0.5 * torch.norm(users_pop_emb) ** 2 + self.batch_size * 0.5 * torch.norm(pos_pop_emb) ** 2
         regularizer2  = regularizer2/self.batch_size
         reg_loss = self.decay * (regularizer1+regularizer2)
 
