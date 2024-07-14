@@ -524,7 +524,8 @@ if __name__ == '__main__':
 
     # evaluators=[ eval_valid,eval_test_id, eval_test_ood]
     evaluators=[ eval_valid,eval_test_id]
-    eval_names=["valid","test_id", "test_ood" ]
+    # eval_names=["valid","test_id", "test_ood" ]
+    eval_names=["valid","test_id"]
 
     if args.modeltype == 'LGN':
         model = LGN(args, data)
