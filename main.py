@@ -17,7 +17,7 @@ import collections
 import os
 from data import Data
 from parse import parse_args
-from model import CausE, IPS, LGN, MACR, INFONCE_batch, INFONCE, SAMREG, BC_LOSS, BC_LOSS_batch, SimpleX, SimpleX_batch
+from model import LGN, INFONCE_batch, INFONCE, BC_LOSS, BC_LOSS_batch
 from torch.utils.data import Dataset, DataLoader
 
 
